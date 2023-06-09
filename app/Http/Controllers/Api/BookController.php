@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Book;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
@@ -14,7 +15,7 @@ class BookController extends Controller
 
         $data = $books->all();        
 
-        return  response()->json($data);
+        return  response()->json($data,200);
     }
 
     public function create(Request $request){
@@ -30,26 +31,58 @@ class BookController extends Controller
 
         $message=["message" => "Resgistro Exitoso!!"];
 
-        return response()->json($message);
+        return response()->json($message,Response::HTTP_CREATED);
+        
+        // return response()->json($message,Response::201);
     }
 
 
     
-    public function update(){
+    public function update(Request $request){
 
-        return true;
+
+        $idBook = $request->query("id");
+
+        $book = new Book();
+
+        $bookParticular = $book->find($idBook);
+
+        $bookParticular->name = $request->input("name");
+        $bookParticular->isbn = $request->input("isbn");
+        $bookParticular->author = $request->input("author");
+        $bookParticular->edition = $request->input("edition");
+
+
+        $bookParticular->save();
+
+        $message=[
+            "message" => "Actualización Exitosa!!",
+            "idBook" => $request->query("id"),
+            "nameBook"=>$bookParticular->name
+        ];
+
+        return $message;
     }
 
         
-    public function delete(){
 
-        return true;
+    public function delete(Request $request){
+
+        $idBook = $request->query("id");
+
+        $book = new Book();
+
+        $bookParticular = $book->find($idBook);
+
+        $bookParticular->delete();
+
+        $message=[
+            "message" => "Eliminación Exitosa!!",
+            "idBook" => $request->query("id"),
+        ];
+
+        return $message;
     }
 
-    public function upgrade(){
 
-
-            return true;
-
-    }
 }

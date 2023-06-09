@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,15 +19,6 @@ use App\Http\Controllers\Api\BookController;
 /*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-
-
-
-Route::get("/books",[BookController::class,'read']);
-
-
-Route::post("/book",[BookController::class,'create']);
-
-
 
 
 
@@ -79,3 +71,23 @@ Route::delete("/musica",function (Request $request) {
     return response()->json($message);
 
 });
+
+
+/**API Book  CRUD**/
+
+
+Route::post("/book",[BookController::class,'create']);
+
+Route::get("/books",[BookController::class,'read']);
+
+Route::put("/book",[BookController::class,'update']);
+
+Route::delete("/book",[BookController::class,'delete']);
+
+
+
+/**API Stundet**/
+
+Route::get("/students",[StudentController::class,"read"]);
+
+
